@@ -1,7 +1,9 @@
 package godist
 
 import (
+	"fmt"
 	"path/filepath"
+	"runtime"
 	"time"
 
 	"github.com/paketo-buildpacks/packit/v2"
@@ -45,6 +47,26 @@ func Build(entryResolver EntryResolver, dependencyManager DependencyManager, sbo
 		dependency, err := dependencyManager.Resolve(filepath.Join(context.CNBPath, "buildpack.toml"), entry.Name, version, context.Stack)
 		if err != nil {
 			return packit.BuildResult{}, err
+		}
+
+		archDependency, err := parseBuildpackWithArch(filepath.Join(context.CNBPath, "buildpack.toml"), dependency)
+		if err != nil {
+			return packit.BuildResult{}, err
+		}
+		if runtime.GOARCH == "amd64" {
+			dependency.PURL = archDependency.AMD64.PURL
+			dependency.SHA256 = archDependency.AMD64.SHA256
+			dependency.Source = archDependency.AMD64.Source
+			dependency.SourceSHA256 = archDependency.AMD64.SourceSHA256
+			dependency.URI = archDependency.AMD64.URI
+		} else if runtime.GOARCH == "arm64" {
+			dependency.PURL = archDependency.ARM64.PURL
+			dependency.SHA256 = archDependency.ARM64.SHA256
+			dependency.Source = archDependency.ARM64.Source
+			dependency.SourceSHA256 = archDependency.ARM64.SourceSHA256
+			dependency.URI = archDependency.ARM64.URI
+		} else {
+			return packit.BuildResult{}, fmt.Errorf("unknown system architecture: %s", runtime.GOARCH)
 		}
 
 		logs.SelectedDependency(entry, dependency, clock.Now())
