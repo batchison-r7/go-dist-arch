@@ -105,20 +105,6 @@ api = "0.7"
     id = "go"
     licenses = ["BSD-3-Clause"]
     name = "Go"
-    purl = "pkg:generic/go@go1.19?checksum=464b6b66591f6cf055bc5df90a9750bf5fbc9d038722bb84a9d56a2bea974be6&download_url=https://go.dev/dl/go1.19.linux-amd64.tar.gz"
-    sha256 = "464b6b66591f6cf055bc5df90a9750bf5fbc9d038722bb84a9d56a2bea974be6"
-    source = "https://go.dev/dl/go1.19.linux-amd64.tar.gz"
-    source_sha256 = "464b6b66591f6cf055bc5df90a9750bf5fbc9d038722bb84a9d56a2bea974be6"
-    stacks = ["*"]
-    uri = "https://go.dev/dl/go1.19.linux-amd64.tar.gz"
-    strip-components = 1
-    version = "1.19.0"
-
-  [[metadata.dependencies]]
-    cpe = "cpe:2.3:a:golang:go:1.19:*:*:*:*:*:*:*"
-    id = "go"
-    licenses = ["BSD-3-Clause"]
-    name = "Go"
     stacks = ["*"]
     strip-components = 1
     version = "1.19.0"
